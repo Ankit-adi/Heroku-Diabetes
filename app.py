@@ -14,13 +14,15 @@ def predict():
     '''
     For rendering results on HTML GUI
     '''
-    int_features = [int(x) for x in request.form.values()]
+    int_features = [float(x) for x in request.form.values()]
     final_features = [np.array(int_features)]
     prediction = model.predict(final_features)
 
     output = round(prediction[0], 2)
-
-    return render_template('index.html', prediction_text='Probability of diabetes is:'.format(output))
+    if(output==1):
+        return render_template('index.html', prediction_text='Probability of diabetes is:Yes')
+    else:
+        return render_template('index.html', prediction_text='Probability of diabetes is:No')
 
 @app.route('/predict_api',methods=['POST'])
 def predict_api():
